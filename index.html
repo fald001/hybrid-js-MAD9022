@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Images</title>
+</head>
+<body>
+    <h1>Fetch Images</h1>
+    <div id="image-container"></div>
+
+    <script>
+        function fetchImages() {
+            fetch('https://picsum.photos/v2/list')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch images');
+                    }
+                    return response.json();
+                })
+
+                
+                .then(data => {
+                    let imageContainer = document.getElementById('image-container');
+                    data.forEach(item => {
+                        let imageUrl = item.download_url;
+                        let imageItem = document.createElement('div');
+                        let image = document.createElement('img');
+                        image.src = imageUrl;
+                        image.alt = 'ImagePhoto';
+                        image.style.width = '300px';
+                        image.style.height = '300px';
+                        imageItem.appendChild(image);
+                        imageContainer.appendChild(imageItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        window.addEventListener('load', fetchImages);
+    </script>
+</body>
+</html>
